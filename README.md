@@ -1,85 +1,131 @@
 # Multimineral Analysis Using Well Logs
 
+<p align="center">
+  <img src="outputs/mineral_composition.png" alt="Mineral Composition" width="700"/>
+</p>
+
+<p align="center">
+  <b>Optimization-based multimineral analysis using density, neutron porosity, and photoelectric well logs.</b>
+</p>
+
+---
+
 ## Overview
 
-This project performs multimineral analysis of carbonate reservoir formations using density (RHOB), neutron porosity (NPHI), and photoelectric factor (PEF) well logs. A constrained nonlinear optimization approach is employed to estimate the volumetric fractions of calcite, dolomite, pyrite, and effective porosity while satisfying the mineral volume closure constraint.
+This project presents an optimization-based workflow for multimineral analysis of carbonate reservoirs using conventional well logs. The notebook estimates the volumetric fractions of calcite, dolomite, pyrite, and effective porosity from density (RHOB), neutron porosity (NPHI), and photoelectric factor (PEF) logs after applying shale correction.
 
-The workflow demonstrates the application of optimization techniques in petrophysical evaluation for reservoir characterization.
-
----
-
-## Objectives
-
-- Perform shale correction on well log measurements.
-- Estimate mineral volume fractions using constrained optimization.
-- Predict well log responses from the estimated mineral composition.
-- Evaluate inversion quality using RMSE and volume closure.
-- Visualize mineral composition and porosity profiles.
+The workflow employs constrained nonlinear optimization to minimize the mismatch between measured and predicted log responses while satisfying the mineral volume closure constraint.
 
 ---
 
-## Methodology
+## Features
 
-The workflow consists of the following steps:
+- Well log preprocessing and quality control
+- Shale correction for RHOB, NPHI, and PEF logs
+- Constrained nonlinear optimization for multimineral inversion
+- Estimation of:
+  - Calcite Volume
+  - Dolomite Volume
+  - Pyrite Volume
+  - Effective Porosity
+- Volume closure verification
+- RMSE-based inversion quality assessment
+- Comparison of measured and predicted well log responses
+- Automatic export of processed results and visualizations
 
-1. Import and preprocess well log data.
-2. Apply shale correction to RHOB, NPHI, and PEF logs.
-3. Define mineral end-member properties.
-4. Formulate an optimization problem to minimize the mismatch between observed and predicted log responses.
-5. Enforce the mineral volume closure constraint.
-6. Estimate:
-   - Calcite Volume
-   - Dolomite Volume
-   - Pyrite Volume
-   - Effective Porosity
-7. Evaluate inversion quality using:
-   - Root Mean Square Error (RMSE)
-   - Volume Closure
-8. Export results and generate visualizations.
+---
+
+## Workflow
+
+```text
+Input Well Logs
+        │
+        ▼
+Data Cleaning
+        │
+        ▼
+Shale Correction
+        │
+        ▼
+Mineral End-Member Definition
+        │
+        ▼
+Constrained Optimization
+        │
+        ▼
+Mineral Volume Estimation
+        │
+        ▼
+Quality Assessment
+        │
+        ▼
+Plots & Result Export
+```
 
 ---
 
 ## Mathematical Formulation
 
-The optimization minimizes the difference between measured and predicted log responses:
+The optimization minimizes the difference between measured and predicted well log responses:
 
-\[
-\min \sum (L_{observed}-L_{predicted})^2
-\]
+<p align="center">
 
-subject to
+min Σ (Observed Log − Predicted Log)²
 
-\[
-V_{Calcite}+V_{Dolomite}+V_{Pyrite}+\phi=1
-\]
+Subject to
+
+Vcalcite + Vdolomite + Vpyrite + φ = 1
+
+</p>
 
 where
 
-- \(V_{Calcite}\) = Calcite volume fraction
-- \(V_{Dolomite}\) = Dolomite volume fraction
-- \(V_{Pyrite}\) = Pyrite volume fraction
-- \(\phi\) = Effective porosity
+- **Vcalcite** = Calcite volume fraction
+- **Vdolomite** = Dolomite volume fraction
+- **Vpyrite** = Pyrite volume fraction
+- **φ** = Effective porosity
 
 ---
 
 ## Project Structure
 
-```
+```text
 MultiMineral-Analysis/
 │
-├── Multi_Mineral_Analysis.ipynb
-├── well_logs.csv
-├── outputs/
-│   ├── multimineral_analysis_results.csv
-│   ├── volume_closure.png
-│   ├── rmse.png
-│   ├── mineral_composition.png
-│   ├── porosity.png
-│   └── log_matching.png
-│
+├── MultiMineral-Analysis.ipynb
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+├── .gitignore
+└── outputs/
+    ├── multimineral_analysis_results.csv
+    ├── mineral_composition.png
+    ├── porosity.png
+    ├── volume_closure.png
+    ├── rmse.png
+    └── log_matching.png
 ```
+
+---
+
+## Required Input Data
+
+The notebook expects a CSV file named:
+
+```text
+well_logs.csv
+```
+
+containing the following columns:
+
+| Column | Description |
+|----------|-------------|
+| Depth | Measured Depth |
+| RHOB | Bulk Density |
+| NPHI | Neutron Porosity |
+| PEF | Photoelectric Factor |
+| Vsh | Shale Volume |
+
+> **Note:** The input dataset is **not included** in this repository. Users can run the notebook by supplying their own well log dataset containing the required columns.
 
 ---
 
@@ -94,80 +140,29 @@ MultiMineral-Analysis/
 
 ---
 
-## Input Data
-
-The analysis requires a CSV file containing the following well logs:
-
-| Column | Description |
-|---------|-------------|
-| Depth | Measured depth |
-| RHOB | Bulk Density |
-| NPHI | Neutron Porosity |
-| PEF | Photoelectric Factor |
-| Vsh | Shale Volume |
-
----
-
 ## Output
 
-The project generates:
+The notebook generates:
 
 - Estimated Calcite Volume
 - Estimated Dolomite Volume
 - Estimated Pyrite Volume
 - Effective Porosity
 - Bulk Porosity
-- Volume Closure
-- RMSE
+- Volume Closure Analysis
+- RMSE Evaluation
 - Predicted Well Log Responses
+- Processed CSV Results
 
----
+### Generated Visualizations
 
-## Visualizations
+| Mineral Composition | Porosity Profile |
+|----------------------|------------------|
+| ![](outputs/mineral_composition.png) | ![](outputs/porosity.png) |
 
-The notebook automatically generates:
-
-- Mineral Volume Closure
-- Optimization Error (RMSE)
-- Estimated Mineral Composition
-- Porosity Profile
-- Measured vs Predicted Well Logs
-
-All plots are exported to the `outputs` directory.
-
----
-
-## Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/<your-username>/MultiMineral-Analysis.git
-```
-
-Install the required libraries
-
-```bash
-pip install -r requirements.txt
-```
-
-Launch Jupyter Notebook
-
-```bash
-jupyter notebook
-```
-
-Run all notebook cells.
-
----
-
-## Future Improvements
-
-- Incorporation of additional minerals such as quartz and clay.
-- Integration of resistivity and sonic logs.
-- Uncertainty analysis using Monte Carlo simulation.
-- Interactive visualization using Plotly.
-- Extension to machine learning-assisted multimineral prediction.
+| Volume Closure | Measured vs Predicted Logs |
+|----------------|----------------------------|
+| ![](outputs/volume_closure.png) | ![](outputs/log_matching.png) |
 
 ---
 
@@ -175,5 +170,5 @@ Run all notebook cells.
 
 **Prem Kumar Singh**
 
-B.Tech Petroleum Engineering  
+B.Tech, Petroleum Engineering  
 Indian Institute of Technology (ISM) Dhanbad
